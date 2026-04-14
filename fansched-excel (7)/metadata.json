@@ -1,0 +1,6 @@
+{
+  "name": "FanSched Excel",
+  "description": "Convert HVAC fan schedules from images, PDFs, or text into polished, grouped Excel workbooks with automatic unit conversion and spec note extraction.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
