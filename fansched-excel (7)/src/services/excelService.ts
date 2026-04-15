@@ -18,6 +18,7 @@ export async function generateExcel(schedule: FanSchedule) {
       { header: 'MODEL', key: 'model', width: 25 },
       { header: 'CFM', key: 'cfm', width: 12 },
       { header: 'ESP', key: 'esp', width: 12 },
+      { header: 'DRIVE', key: 'driveType', width: 12 },
       { header: 'RPM', key: 'rpm', width: 10 },
       { header: 'HP', key: 'hp', width: 10 },
       { header: 'VOLT/PH', key: 'voltage_phase', width: 15 },
@@ -70,30 +71,38 @@ export async function generateExcel(schedule: FanSchedule) {
 
     // 5. Add Table Header
     const headerRow = worksheet.addRow(columns.map(c => c.header));
-    headerRow.height = 30;
-    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 10 };
+    headerRow.height = 35;
+    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' }, size: 11, name: 'Segoe UI' };
     headerRow.fill = {
       type: 'pattern',
       pattern: 'solid',
-      fgColor: { argb: 'FF222222' }
+      fgColor: { argb: 'FF1E293B' } // Deep Slate Blue
     };
     headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
+    headerRow.border = {
+      bottom: { style: 'medium', color: { argb: 'FF0F172A' } }
+    };
 
     // 6. Add Data Groups
     tab.groups.forEach((group) => {
       // Group Header
       const groupRow = worksheet.addRow([`GROUP: ${group.cfm} CFM @ ${group.esp} in.WG`]);
-      groupRow.height = 22;
-      groupRow.font = { bold: true, size: 10 };
+      groupRow.height = 28;
+      groupRow.font = { bold: true, size: 10, color: { argb: 'FF334155' }, name: 'Segoe UI' };
       groupRow.fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'FFF0F0F0' }
+        fgColor: { argb: 'FFF1F5F9' } // Light Slate
       };
+      groupRow.alignment = { vertical: 'middle', horizontal: 'left', indent: 1 };
       worksheet.mergeCells(groupRow.number, 1, groupRow.number, columns.length);
+      groupRow.border = {
+        top: { style: 'thin', color: { argb: 'FFCBD5E1' } },
+        bottom: { style: 'thin', color: { argb: 'FFCBD5E1' } }
+      };
 
       // Fans
-      group.fans.forEach((fan) => {
+      group.fans.forEach((fan, index) => {
         const rowData = {
           tag: fan.tag,
           type: fan.type,
@@ -101,6 +110,7 @@ export async function generateExcel(schedule: FanSchedule) {
           model: fan.model || '-',
           cfm: fan.cfm,
           esp: fan.esp,
+          driveType: fan.driveType || '-',
           rpm: fan.rpm || '-',
           hp: fan.hp || '-',
           voltage_phase: `${fan.voltage || '-'}/${fan.phase || '-'}`,
@@ -110,23 +120,34 @@ export async function generateExcel(schedule: FanSchedule) {
         };
         
         const row = worksheet.addRow(rowData);
-        row.height = 20;
+        row.height = 24;
         row.alignment = { vertical: 'middle', horizontal: 'center' };
+        row.font = { name: 'Segoe UI', size: 10 };
+        
+        // Zebra striping
+        if (index % 2 === 1) {
+          row.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFF8FAFC' }
+          };
+        }
         
         // Specific alignments
         row.getCell('tag').alignment = { vertical: 'middle', horizontal: 'left', indent: 1 };
+        row.getCell('tag').font = { bold: true, color: { argb: 'FF0F172A' }, name: 'Segoe UI' };
         row.getCell('type').alignment = { vertical: 'middle', horizontal: 'left' };
         row.getCell('manufacturer').alignment = { vertical: 'middle', horizontal: 'left' };
         row.getCell('model').alignment = { vertical: 'middle', horizontal: 'left' };
-        row.getCell('notes').alignment = { vertical: 'top', horizontal: 'left', wrapText: true };
+        row.getCell('notes').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
+        row.getCell('notes').font = { size: 9, italic: true, color: { argb: 'FF64748B' } };
 
         // Borders
         row.eachCell((cell) => {
           cell.border = {
-            top: { style: 'thin', color: { argb: 'FFDDDDDD' } },
-            left: { style: 'thin', color: { argb: 'FFDDDDDD' } },
-            bottom: { style: 'thin', color: { argb: 'FFDDDDDD' } },
-            right: { style: 'thin', color: { argb: 'FFDDDDDD' } }
+            left: { style: 'thin', color: { argb: 'FFF1F5F9' } },
+            right: { style: 'thin', color: { argb: 'FFF1F5F9' } },
+            bottom: { style: 'thin', color: { argb: 'FFF1F5F9' } }
           };
         });
       });

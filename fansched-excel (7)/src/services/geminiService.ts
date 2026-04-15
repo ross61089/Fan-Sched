@@ -25,14 +25,15 @@ export async function extractFanSchedule(
     Extract ALL HVAC fan schedule data from the provided input. Do not skip any schedules or equipment lists.
     Organize the data into tabs by fan type (e.g., Wall Mount Propeller, Upblast Centrifugal, Toilet Exhaust, Inline Exhaust, Supply Fans).
     Within each tab, group fans that have the EXACT same CFM and ESP (Static Pressure).
-    Extract any general spec notes or remarks for each fan type.
+    Extract any general spec notes or remarks for each fan type, but ONLY include those that are actually referenced by at least one fan in the schedule (e.g., if a fan has "Note 1" in its remarks, include Note 1, but omit any notes that are not used).
     
     CRITICAL EXTRACTION RULES:
     1. MANUFACTURER & MODEL: Look for "MFG", "MAKE", "MODEL NO". Split combined fields like "Greenheck SQ-120".
     2. RPM: Extract the fan speed. Look for "RPM" or "SPEED".
     3. VOLTAGE & PHASE: Extract electrical data. Look for "VOLTS", "V", "PH", "PHASE". 
        Example: "115/1" means Voltage: "115", Phase: 1. "208/3" means Voltage: "208", Phase: 3.
-    4. HP: Extract horsepower. Look for "HP", "MOTOR HP", "BHP".
+    4. HP: Extract horsepower. Look for "HP", "MOTOR HP", "BHP". Return as a fraction if listed that way (e.g., "1/2", "3/4", "1-1/2").
+    5. DRIVE TYPE: Extract the drive type. Look for "DRIVE", "DRIVE TYPE", "DIRECT", "BELT".
     
     If units are in metric (L/S for flow, Pa for pressure), include them and also calculate the imperial equivalents (CFM = L/S * 2.1189, in.WG = Pa / 248.84).
     
@@ -79,7 +80,8 @@ export async function extractFanSchedule(
                             cfm: { type: Type.NUMBER },
                             esp: { type: Type.NUMBER },
                             rpm: { type: Type.NUMBER },
-                            hp: { type: Type.NUMBER },
+                            hp: { type: Type.STRING },
+                            driveType: { type: Type.STRING },
                             voltage: { type: Type.STRING },
                             phase: { type: Type.NUMBER },
                             notes: { type: Type.STRING },
