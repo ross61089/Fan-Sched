@@ -151,7 +151,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 font-sans selection:bg-primary/10">
-      <Toaster position="top-right" theme={isDarkMode ? 'dark' : 'light'} richColors />
+      <Toaster position="bottom-right" theme={isDarkMode ? 'dark' : 'light'} richColors />
       
       {isMissingApiKey && (
         <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-md flex items-center justify-center p-6">
