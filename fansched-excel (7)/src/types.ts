@@ -6,7 +6,8 @@ export interface FanData {
   cfm: number;
   esp: number;
   rpm?: number;
-  hp?: number;
+  hp?: string;
+  driveType?: string;
   voltage?: string;
   phase?: number;
   notes?: string;

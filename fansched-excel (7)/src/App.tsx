@@ -151,7 +151,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 font-sans selection:bg-primary/10">
-      <Toaster position="bottom-right" theme={isDarkMode ? 'dark' : 'light'} richColors />
+      <Toaster position="top-right" theme={isDarkMode ? 'dark' : 'light'} richColors />
       
       {isMissingApiKey && (
         <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-md flex items-center justify-center p-6">
@@ -201,7 +201,6 @@ export default function App() {
                 className="text-3xl md:text-4xl font-black tracking-tighter"
               >
                 FAN<span className="text-primary">SCHED</span>
-                <span className="text-primary/30 ml-1">v2.0</span>
               </motion.h1>
               <motion.p 
                 initial={{ opacity: 0 }}
@@ -474,6 +473,7 @@ export default function App() {
                                             <TableHead className="text-[9px] uppercase font-black tracking-[0.2em] text-muted-foreground">Manufacturer / Model</TableHead>
                                             <TableHead className="text-center text-[9px] uppercase font-black tracking-[0.2em] text-muted-foreground">CFM</TableHead>
                                             <TableHead className="text-center text-[9px] uppercase font-black tracking-[0.2em] text-muted-foreground">ESP</TableHead>
+                                            <TableHead className="text-center text-[9px] uppercase font-black tracking-[0.2em] text-muted-foreground">Drive</TableHead>
                                             <TableHead className="text-center text-[9px] uppercase font-black tracking-[0.2em] text-muted-foreground">RPM</TableHead>
                                             <TableHead className="text-center text-[9px] uppercase font-black tracking-[0.2em] text-muted-foreground">HP</TableHead>
                                             <TableHead className="text-right pr-8 text-[9px] uppercase font-black tracking-[0.2em] text-muted-foreground">Volt / Ph</TableHead>
@@ -489,6 +489,7 @@ export default function App() {
                                               </TableCell>
                                               <TableCell className="text-center font-mono text-xs font-bold">{fan.cfm}</TableCell>
                                               <TableCell className="text-center font-mono text-xs font-bold">{fan.esp}</TableCell>
+                                              <TableCell className="text-center font-mono text-[10px] font-bold opacity-70 uppercase tracking-tighter">{fan.driveType || '—'}</TableCell>
                                               <TableCell className="text-center font-mono text-xs font-bold opacity-60">{fan.rpm || '—'}</TableCell>
                                               <TableCell className="text-center font-mono text-xs font-bold opacity-60">{fan.hp || '—'}</TableCell>
                                               <TableCell className="text-right pr-8 font-mono text-[11px] font-black text-muted-foreground/80">
@@ -521,11 +522,6 @@ export default function App() {
             <span className="text-[9px] font-black uppercase tracking-[0.5em] text-muted-foreground/60">
               FanSched Engineering Systems &copy; {new Date().getFullYear()}
             </span>
-          </div>
-          <div className="flex gap-8">
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 hover:text-primary transition-colors cursor-help">Documentation</span>
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 hover:text-primary transition-colors cursor-help">API Status</span>
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 hover:text-primary transition-colors cursor-help">Security</span>
           </div>
         </footer>
       </div>
