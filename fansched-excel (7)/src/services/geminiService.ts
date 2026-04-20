@@ -13,7 +13,7 @@ const getApiKey = () => {
 };
 
 export async function extractFanSchedule(
-  input: string | { data: string; mimeType: string }
+  input: string | { data: string; mimeType: string }h
 ): Promise<FanSchedule> {
   const apiKey = getApiKey();
   if (!apiKey) {
@@ -45,7 +45,7 @@ export async function extractFanSchedule(
     : [prompt, { inlineData: input }];
 
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+          model: "gemini-2.0-flash",
     contents: { parts: contents.map(c => typeof c === 'string' ? { text: c } : c) },
     config: {
       thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
