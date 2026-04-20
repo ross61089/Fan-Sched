@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type, ThinkingLevel } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 import { FanSchedule } from "../types";
 
 // Gemini API key is loaded from VITE_GEMINI_API_KEY environment variable (updated key)
@@ -46,10 +46,9 @@ export async function extractFanSchedule(
     : [prompt, { inlineData: input }];
 
   const response = await ai.models.generateContent({
-          model: "gemini-2.0-flash",
+          model: "gemini-1.5-flash-8b",
     contents: { parts: contents.map(c => typeof c === 'string' ? { text: c } : c) },
     config: {
-      thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
