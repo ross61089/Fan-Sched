@@ -46,7 +46,7 @@ export async function extractFanSchedule(
     : [prompt, { inlineData: input }];
 
   const response = await ai.models.generateContent({
-          model: "gemini-1.5-flash-8b",
+                model: "gemini-1.5-flash",
     contents: { parts: contents.map(c => typeof c === 'string' ? { text: c } : c) },
     config: {
       responseMimeType: "application/json",
