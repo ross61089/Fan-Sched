@@ -13,7 +13,7 @@ const getApiKey = () => {
 };
 
 export async function extractFanSchedule(
-  input: string | { data: string; mimeType: string }h
+  input: string | { data: string; mimeType: string }
 ): Promise<FanSchedule> {
   const apiKey = getApiKey();
   if (!apiKey) {
