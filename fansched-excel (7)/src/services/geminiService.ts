@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type, ThinkingLevel } from "@google/genai";
 import { FanSchedule } from "../types";
 
-// Gemini API key is loaded from VITE_GEMINI_API_KEY environment variable
+// Gemini API key is loaded from VITE_GEMINI_API_KEY environment variable (updated key)
 const getApiKey = () => {
   const viteKey = (import.meta as any).env.VITE_GEMINI_API_KEY;
   const processKey = (globalThis as any).process?.env?.GEMINI_API_KEY;
