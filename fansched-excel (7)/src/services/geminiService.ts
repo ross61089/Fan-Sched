@@ -5,7 +5,7 @@ import { FanSchedule } from "../types";
 const getApiKey = () => {
     const viteKey = (import.meta as any).env.VITE_GEMINI_API_KEY;
     const processKey = (globalThis as any).process?.env?.GEMINI_API_KEY;
-
+h
     if (!viteKey && !processKey) {
           console.warn("Gemini API Key not found in VITE_GEMINI_API_KEY or GEMINI_API_KEY");
     }
@@ -51,7 +51,7 @@ export async function extractFanSchedule(
   }
 
   const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
+                model: "gemini-1.5-flash-8b",
         contents: [{ role: 'user', parts }],
         config: {
                 responseMimeType: "application/json",
